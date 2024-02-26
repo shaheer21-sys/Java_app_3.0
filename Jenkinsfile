@@ -11,7 +11,7 @@ pipeline{
         string(name: 'ImageName', description: "name of the docker build", defaultValue: 'javapp')
         string(name: 'ImageTag', description: "tag of the docker build", defaultValue: 'v1')
         string(name: 'DockerHubUser', description: "name of the Application", defaultValue: 'shaheer951')
-        string(name: 'ArtifactoryURL', description: "URL of the Artifactory server", defaultValue: 'http://18.207.215.159:8082')
+        string(name: 'ArtifactoryURL', description: "URL of the Artifactory server", defaultValue: 'http://44.203.39.241:8082')
     }
 
     stages{
