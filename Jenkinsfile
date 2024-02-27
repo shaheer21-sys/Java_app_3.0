@@ -91,7 +91,7 @@ pipeline{
                 // Using the USERNAME and PASSWORD variables
                 echo $USERNAME
                 echo $PASSWORD
-                def curlCommand = "curl -u '${USERNAME}:${PASSWORD}' -T target/*.jar ${params.ArtifactoryURL}/artifactory/example-repo-local/"
+                def curlCommand = "curl -u ${USERNAME}:${PASSWORD} -T target/*.jar ${params.ArtifactoryURL}/artifactory/example-repo-local/"
                 echo "Executing curl command: $curlCommand"
                 sh curlCommand
                 }
