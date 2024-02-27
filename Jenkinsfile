@@ -20,7 +20,7 @@ pipeline{
                     when { expression {  params.action == 'create' } }
             steps{
             gitCheckout(
-                branch: "main",
+                branch: "v2",
                 url: "https://github.com/shaheer21-sys/Java_app_3.0.git"
             )
             }
