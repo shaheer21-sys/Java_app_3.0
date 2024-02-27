@@ -84,13 +84,13 @@ pipeline{
             echo "Pushing artifact into JFrog"
             
             withCredentials([usernamePassword(
-                credentialsId: 'ARTIFACTORY', 
-                usernameVariable: '$USERNAME', 
-                passwordVariable: '$PASSWORD'
+                credentialsId: "ARTIFACTORY", 
+                usernameVariable: "USERNAME", 
+                passwordVariable: "PASSWORD"
             )]) {
                 // Using the USERNAME and PASSWORD variables
-                echo $USERNAME
-                echo $PASSWORD
+                echo "Username: $USERNAME"
+                echo "Password: $PASSWORD"
                 def curlCommand = "curl -u ${USERNAME}:${PASSWORD} -T target/*.jar ${params.ArtifactoryURL}/artifactory/example-repo-local/"
                 echo "Executing curl command: $curlCommand"
                 sh curlCommand
