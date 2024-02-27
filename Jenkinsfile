@@ -80,16 +80,18 @@ pipeline{
                 steps{
                     script{
                         echo "Pushing aritifact into jfrog"
-                        withcredentials([usernamePassword(
-                    credentialsId: "ARTIFACTORY", 
-                    usernameVariable: "USER", 
-                    passwordVariable: "PASS"
-                )]){
-                    //using the artifactory_user and artifactory_password variables
-                    echo "Username: $USER"
-                    echo "Password: $PASS"
+                //         withcredentials([usernamePassword(
+                //     credentialsId: "ARTIFACTORY", 
+                //     usernameVariable: "USER", 
+                //     passwordVariable: "PASS"
+                // )])
                 
-                    def curlCommand = "curl -u '${USER}:${PASS}' -T target/*.jar ${params.ArtifactoryURL}/artifactory/example-repo-local/"
+                {
+                    //using the artifactory_user and artifactory_password variables
+                    // echo "Username: $USER"
+                    // echo "Password: $PASS"
+                
+                    def curlCommand = "curl -u 'admin:Mindgamer@22' -T target/*.jar ${params.ArtifactoryURL}/artifactory/example-repo-local/"
                     echo "Executing curl command: $curlCommand"
                     sh curlCommand
                 }
