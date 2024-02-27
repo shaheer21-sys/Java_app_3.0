@@ -75,17 +75,30 @@ pipeline{
             }
         }
 
-        stage('PUSH artifact to JFrog'){
-            when {expression { params.action == 'create'}}
-                steps{
-                    script{
-                        echo "Pushing aritifact into jfrog"
-                        def curlCommand = "curl -u admin:Mindgamer@22 -T target/*.jar ${params.ArtifactoryURL}/artifactory/example-repo-local/"
-                        echo "Executing curl command: $curlCommand"
-                        sh curlCommand
-                    }
+        stage('PUSH artifact to JFrog') {
+    when {
+        expression { params.action == 'create' }
+    }
+    steps {
+        script {
+            echo "Pushing artifact into JFrog"
+            
+            withCredentials([usernamePassword(
+                credentialsId: 'ARTIFACTORY', 
+                usernameVariable: 'USERNAME', 
+                passwordVariable: 'PASSWORD'
+            )]) {
+                // Using the USERNAME and PASSWORD variables
+                echo $USERNAME
+                echo $PASSWORD
+                def curlCommand = "curl -u $USERNAME:$PASSWORD -T target/*.jar ${params.ArtifactoryURL}/artifactory/example-repo-local/"
+                echo "Executing curl command: $curlCommand"
+                sh curlCommand
                 }
+            }
         }
+    }
+
         stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
             steps{
