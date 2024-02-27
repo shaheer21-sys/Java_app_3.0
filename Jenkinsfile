@@ -11,6 +11,7 @@ pipeline{
         string(name: 'ImageName', description: "name of the docker build", defaultValue: 'javapp')
         string(name: 'ImageTag', description: "tag of the docker build", defaultValue: 'v1')
         string(name: 'DockerHubUser', description: "name of the Application", defaultValue: 'shaheer951')
+        string(name: 'ArtifactoryURL', description: "URL of the Artifactory server", defaultValue: 'http://54.157.131.219:8082')
     }
 
     stages{
@@ -19,7 +20,7 @@ pipeline{
                     when { expression {  params.action == 'create' } }
             steps{
             gitCheckout(
-                branch: "main",
+                branch: "v2",
                 url: "https://github.com/shaheer21-sys/Java_app_3.0.git"
             )
             }
@@ -72,6 +73,18 @@ pipeline{
                    mvnBuild()
                }
             }
+        }
+
+        stage('PUSH artifact to JFrog'){
+            when {expression { params.action == 'create'}}
+                steps{
+                    script{
+                        echo "Pushing aritifact into jfrog"
+                        def curlCommand = "curl -u admin:Mindgamer@22 -T target/*.jar ${params.ArtifactoryURL}/artifactory/example-repo-local/"
+                        echo "Executing curl command: $curlCommand"
+                        sh curlCommand
+                    }
+                }
         }
         stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
